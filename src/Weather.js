@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { TailSpin } from "react-loader-spinner";
-import { AnimatedWeatherIcon } from "animated-weather-icon";
+//import { AnimatedWeatherIcon } from "animated-weather-icon";
 
 export default function Weather(props) {
   function handleResponse(response) {
