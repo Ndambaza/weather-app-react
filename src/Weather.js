@@ -18,7 +18,7 @@ export default function Weather(props) {
       <TailSpin
         height="80"
         width="80"
-        color="#4fa94d"
+        color="#8d4da9ff"
         ariaLabel="tail-spin-loading"
       />
     </div>
