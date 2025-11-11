@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactAnimatedWeather from "react-animated-weather";
 
 export default function WeatherData(props) {
+  const [unit, setUnit] = useState("celsius");
+
   // Map weather descriptions to icon types
   function getWeatherIcon(description) {
     const desc = description.toLowerCase();
@@ -21,6 +23,13 @@ export default function WeatherData(props) {
   } else {
     iconColor = "orange";
   }
+
+  const getTemperature = (celsius) => {
+    if (unit === "fahrenheit") {
+      return Math.round((celsius * 9) / 5 + 32);
+    }
+    return Math.round(celsius);
+  };
 
   const localTime = () => {
     const date = new Date();
@@ -67,13 +76,35 @@ export default function WeatherData(props) {
               />
             </div>
             <div className="weather-app-temperature">
-              <span className="temperature-value">{props.temperature}</span>
+              <span className="temperature-value">
+                {getTemperature(props.temperature)}
+              </span>
               <span className="weather-app-unit">
-                <a href="#" className="celsius-temp active" rel="noreferrer">
+                <a
+                  href="#"
+                  className={`celsius-temp ${
+                    unit === "celsius" ? "active" : ""
+                  }`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setUnit("celsius");
+                  }}
+                  rel="noreferrer"
+                >
                   °C
                 </a>{" "}
                 |{" "}
-                <a href="#" className="fahrenheit-temp" rel="noreferrer">
+                <a
+                  href="#"
+                  className={`fahrenheit-temp ${
+                    unit === "fahrenheit" ? "active" : ""
+                  }`}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setUnit("fahrenheit");
+                  }}
+                  rel="noreferrer"
+                >
                   °F
                 </a>
               </span>
@@ -99,7 +130,8 @@ export default function WeatherData(props) {
                 </div>
                 <div className="weather-forecast-temperatures">
                   <span className="weather-forecast-temperature">
-                    {Math.round(day.main.temp)}°C
+                    {getTemperature(day.main.temp)}°
+                    {unit === "celsius" ? "C" : "F"}
                   </span>
                 </div>
               </div>
