@@ -1,0 +1,1 @@
+rd "\\?\C:\Users\nmdam\OneDrive\Documents\SheCodes\Weather-app-react\my-app." /s /q

@@ -15,6 +15,8 @@ function App() {
     timezone: 0,
     humidity: 60,
     wind: 0,
+    latitude: 0,
+    longitude: 0,
   });
 
   const [forecast, setForecast] = useState([]);
@@ -63,6 +65,7 @@ function App() {
           weather: apiWeather,
           timezone,
           wind,
+          coord,
         } = response.data;
         setWeather({
           city: name,
@@ -71,6 +74,8 @@ function App() {
           timezone: timezone ?? 0,
           humidity: main?.humidity ?? 0,
           wind: wind ? wind.speed : 0,
+          latitude: coord?.lat ?? 0,
+          longitude: coord?.lon ?? 0,
         });
       })
       .catch((error) => {
@@ -81,9 +86,36 @@ function App() {
     axios
       .get(forecastUrl)
       .then((response) => {
-        const dailyForecasts = response.data.list
-          .filter((item, index) => index % 8 === 0)
-          .slice(0, 5);
+        // Group forecast data by day and calculate min/max temps
+        const forecastByDay = {};
+        
+        response.data.list.forEach((item) => {
+          const date = item.dt_txt.split(' ')[0]; // Get just the date part (YYYY-MM-DD)
+          
+          if (!forecastByDay[date]) {
+            forecastByDay[date] = {
+              dt_txt: item.dt_txt,
+              weather: item.weather,
+              main: {
+                temp_min: item.main.temp,
+                temp_max: item.main.temp,
+              }
+            };
+          } else {
+            // Update min and max temperatures for the day
+            forecastByDay[date].main.temp_min = Math.min(
+              forecastByDay[date].main.temp_min,
+              item.main.temp
+            );
+            forecastByDay[date].main.temp_max = Math.max(
+              forecastByDay[date].main.temp_max,
+              item.main.temp
+            );
+          }
+        });
+        
+        // Convert to array and take first 5 days
+        const dailyForecasts = Object.values(forecastByDay).slice(0, 5);
         setForecast(dailyForecasts);
       })
       .catch((error) => {
@@ -101,6 +133,8 @@ function App() {
         timezone={weather.timezone}
         humidity={weather.humidity}
         wind={weather.wind}
+        latitude={weather.latitude}
+        longitude={weather.longitude}
         theme={theme}
         forecast={forecast}
       />

@@ -76,9 +76,9 @@ export default function WeatherData(props) {
             <h1 className="weather-app-city">{props.city}</h1>
             <p className="weather-app-details">
               <span className="time">
-                {date} <br /> {time}
+                {date} {time}
               </span>
-              {""}, <span className="description">{props.description}</span>
+              <br /> <span className="description">{props.description}</span>
               <br />
               Humidity: <strong className="humidity">{props.humidity}%</strong>,
               Wind:{" "}
@@ -142,8 +142,10 @@ export default function WeatherData(props) {
                 </div>
                 <div className="weather-forecast-temperatures">
                   <span className="weather-forecast-temperature">
-                    {getTemperature(day.main.temp)}°
-                    {unit === "celsius" ? "C" : "F"}
+                    <strong>{getTemperature(day.main.temp_max)}°</strong>
+                  </span>
+                  <span className="weather-forecast-temperature-low">
+                    {getTemperature(day.main.temp_min)}°
                   </span>
                 </div>
               </div>
