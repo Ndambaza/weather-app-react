@@ -80,34 +80,25 @@ export default function WeatherData(props) {
                 {getTemperature(props.temperature)}
               </span>
               <span className="weather-app-unit">
-                // eslint-disable-next-line jsx-a11y/anchor-is-valid{" "}
-                <a
-                  href="#"
+                <button
+                  type="button"
                   className={`celsius-temp ${
                     unit === "celsius" ? "active" : ""
                   }`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setUnit("celsius");
-                  }}
-                  rel="noreferrer"
+                  onClick={() => setUnit("celsius")}
                 >
                   °C
-                </a>{" "}
-                | // eslint-disable-next-line jsx-a11y/anchor-is-valid{" "}
-                <a
-                  href="#"
+                </button>{" "}
+                |{" "}
+                <button
+                  type="button"
                   className={`fahrenheit-temp ${
                     unit === "fahrenheit" ? "active" : ""
                   }`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setUnit("fahrenheit");
-                  }}
-                  rel="noreferrer"
+                  onClick={() => setUnit("fahrenheit")}
                 >
                   °F
-                </a>
+                </button>
               </span>
             </div>
           </div>
