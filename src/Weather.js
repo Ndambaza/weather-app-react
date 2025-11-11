@@ -80,6 +80,7 @@ export default function WeatherData(props) {
                 {getTemperature(props.temperature)}
               </span>
               <span className="weather-app-unit">
+                // eslint-disable-next-line jsx-a11y/anchor-is-valid{" "}
                 <a
                   href="#"
                   className={`celsius-temp ${
@@ -93,7 +94,7 @@ export default function WeatherData(props) {
                 >
                   °C
                 </a>{" "}
-                |{" "}
+                | // eslint-disable-next-line jsx-a11y/anchor-is-valid{" "}
                 <a
                   href="#"
                   className={`fahrenheit-temp ${
