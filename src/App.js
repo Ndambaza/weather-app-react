@@ -86,11 +86,17 @@ function App() {
     axios
       .get(forecastUrl)
       .then((response) => {
+        // Get today's date in YYYY-MM-DD format
+        const today = new Date().toISOString().split('T')[0];
+        
         // Group forecast data by day and calculate min/max temps
         const forecastByDay = {};
         
         response.data.list.forEach((item) => {
           const date = item.dt_txt.split(' ')[0]; // Get just the date part (YYYY-MM-DD)
+          
+          // Skip today's data
+          if (date === today) return;
           
           if (!forecastByDay[date]) {
             forecastByDay[date] = {
@@ -114,7 +120,7 @@ function App() {
           }
         });
         
-        // Convert to array and take first 5 days
+        // Convert to array and take first 5 days (excluding today)
         const dailyForecasts = Object.values(forecastByDay).slice(0, 5);
         setForecast(dailyForecasts);
       })
