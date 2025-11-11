@@ -37,15 +37,26 @@ export default function WeatherData(props) {
     return `${Math.round(speedMs * 3.6)} km/h`;
   };
 
-  const localTime = () => {
-    const date = new Date();
-    const utcTime = date.getTime() + date.getTimezoneOffset() * 60000;
-    const cityTime = new Date(utcTime + props.timezone * 1000);
-    return cityTime.toLocaleTimeString([], {
+  const getLocalDateTime = () => {
+    const now = new Date();
+    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+    const local = new Date(utc + props.timezone * 1000);
+
+    const time = local.toLocaleTimeString([], {
       hour: "2-digit",
       minute: "2-digit",
     });
+
+    const date = local.toLocaleDateString([], {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+    });
+
+    return { time, date };
   };
+
+  const { time, date } = getLocalDateTime();
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -64,8 +75,10 @@ export default function WeatherData(props) {
           <div>
             <h1 className="weather-app-city">{props.city}</h1>
             <p className="weather-app-details">
-              <span className="time">{localTime()}</span>,{" "}
-              <span className="description">{props.description}</span>
+              <span className="time">
+                {date} <br /> {time}
+              </span>
+              {""}, <span className="description">{props.description}</span>
               <br />
               Humidity: <strong className="humidity">{props.humidity}%</strong>,
               Wind:{" "}
