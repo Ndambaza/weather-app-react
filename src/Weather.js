@@ -69,11 +69,11 @@ export default function WeatherData(props) {
             <div className="weather-app-temperature">
               <span className="temperature-value">{props.temperature}</span>
               <span className="weather-app-unit">
-                <a href="#" className="celsius-temp active">
+                <a href="#" className="celsius-temp active" rel="noreferrer">
                   °C
                 </a>{" "}
                 |{" "}
-                <a href="#" className="fahrenheit-temp">
+                <a href="#" className="fahrenheit-temp" rel="noreferrer">
                   °F
                 </a>
               </span>
