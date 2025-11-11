@@ -6,6 +6,7 @@ export default function WeatherData(props) {
 
   // Map weather descriptions to icon types
   function getWeatherIcon(description) {
+    if (!description) return "CLOUDY";
     const desc = description.toLowerCase();
     if (desc.includes("cloud")) return "CLOUDY";
     if (desc.includes("clear") || desc.includes("sunny")) return "CLEAR_DAY";
@@ -29,6 +30,11 @@ export default function WeatherData(props) {
       return Math.round((celsius * 9) / 5 + 32);
     }
     return Math.round(celsius);
+  };
+
+  const formatWind = (speedMs) => {
+    if (typeof speedMs !== "number") return "";
+    return `${Math.round(speedMs * 3.6)} km/h`;
   };
 
   const localTime = () => {
@@ -58,11 +64,12 @@ export default function WeatherData(props) {
           <div>
             <h1 className="weather-app-city">{props.city}</h1>
             <p className="weather-app-details">
-              <span className="time">{localTime()}</span>,
+              <span className="time">{localTime()}</span>,{" "}
               <span className="description">{props.description}</span>
               <br />
-              Humidity: <strong className="humidity">60%</strong>, Wind:{" "}
-              <strong className="wind-speed">10 km/h</strong>
+              Humidity: <strong className="humidity">{props.humidity}%</strong>,
+              Wind:{" "}
+              <strong className="wind-speed">{formatWind(props.wind)}</strong>
             </p>
           </div>
 

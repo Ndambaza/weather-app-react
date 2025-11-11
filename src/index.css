@@ -21,12 +21,12 @@ a {
 
 .weather-app-city {
   margin: 0;
-  font-size: 45px;
+  font-size: 55px;
   line-height: 48px;
 }
 
 .weather-app-details {
-  font-size: 16px;
+  font-size: 20px;
   color: rgba(39, 33, 66, 0.4);
   line-height: 24px;
   font-weight: 500;
@@ -37,7 +37,7 @@ a {
 }
 
 .weather-app-icon {
-  width: 88px;
+  width: 80px;
   height: 88px;
 }
 .weather-app-temperature-container {
@@ -45,7 +45,7 @@ a {
 }
 
 .weather-app-temperature {
-  font-size: 88px;
+  font-size: 75px;
   line-height: 88px;
   font-weight: bold;
   display: inline-block;
@@ -55,7 +55,7 @@ a {
   display: inline-block;
   margin-top: 6px;
   margin-left: 10px;
-  font-size: 28px;
+  font-size: 30px;
 }
 
 .weather-forecast {
@@ -67,7 +67,7 @@ a {
 
 .weather-forecast-date {
   text-align: center;
-  font-size: 16px;
+  font-size: 17px;
   line-height: 20px;
   margin-bottom: 10px;
   opacity: 0.6;
@@ -85,6 +85,7 @@ a {
   margin-top: 10px;
   display: flex;
   justify-content: center;
+  font-size: 17px;
 }
 
 .weather-forecast-temperature {
@@ -100,7 +101,7 @@ header {
   border: none;
   border-radius: 6px;
   width: 80%;
-  font-size: 16px;
+  font-size: 17px;
   padding: 15px 20px;
 }
 .search-form-button {
@@ -111,8 +112,13 @@ header {
   margin-left: 5px;
   border-radius: 6px;
   color: white;
+  cursor: pointer;
+  font-weight: bold;
 }
 
+.search-form-button:hover {
+  opacity: 0.9;
+}
 main {
   padding: 30px 0;
 }
@@ -186,12 +192,6 @@ main {
 
 .night-theme footer {
   color: whitesmoke;
-}
-
-button {
-  justify-content: center;
-  padding: 2px;
-  margin-bottom: 5px;
 }
 
 footer {

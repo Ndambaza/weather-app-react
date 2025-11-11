@@ -12,11 +12,12 @@ function Header(props) {
     props.onSearch(city);
     setCity("");
   }
+
   function updateCity(event) {
     setCity(event.target.value);
   }
+
   return (
-    /* Search Form */
     <form className="search-form" onSubmit={handleSubmit}>
       <input
         type="search"
@@ -26,10 +27,10 @@ function Header(props) {
         onChange={updateCity}
       />
       <button type="submit" className="search-form-button">
-        {" "}
-        Search{" "}
+        Search
       </button>
     </form>
   );
 }
+
 export default Header;

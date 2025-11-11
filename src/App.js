@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Header from "./header";
 import WeatherData from "./Weather";
-import "./App.css";
-import "./index.css";
 import Footer from "./footer";
 import axios from "axios";
+import "./App.css";
+import "./index.css";
 
 function App() {
   const [theme, setTheme] = useState("day-theme");
@@ -13,10 +13,13 @@ function App() {
     temperature: 12,
     description: "Cloudy",
     timezone: 0,
+    humidity: 60,
+    wind: 0,
   });
 
-  const [forecast, setForecast] = useState([]); //Add forecast state
+  const [forecast, setForecast] = useState([]);
 
+  // --- Update theme based on weather timezone ---
   useEffect(() => {
     document.body.classList.remove("day-theme", "night-theme");
     document.body.classList.add(theme);
@@ -26,10 +29,8 @@ function App() {
     if (typeof weather.timezone !== "number") return;
 
     const updateThemeBasedOnTime = () => {
-      // timezone from OpenWeatherMap
       const utcHour = new Date().getUTCHours();
       const cityHour = (utcHour + weather.timezone / 3600 + 24) % 24;
-      // night if 18:00 <= hour or hour < 6:00
       if (cityHour >= 18 || cityHour < 6) {
         setTheme("night-theme");
       } else {
@@ -38,29 +39,16 @@ function App() {
     };
 
     updateThemeBasedOnTime();
-    const id = setInterval(updateThemeBasedOnTime, 60_000); // keep in sync
+    const id = setInterval(updateThemeBasedOnTime, 60_000);
     return () => clearInterval(id);
   }, [weather.timezone]);
 
-  //Fetch initial forecast data for default city
+  // --- Fetch initial weather & forecast for London ---
   useEffect(() => {
-    const apiKey = `24d6cb2a7c0d27fcc186996bccf9c722`;
-    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?q=London&appid=${apiKey}&units=metric`;
-
-    axios
-      .get(forecastUrl)
-      .then((response) => {
-        // Get one forecast per day (every 8 entries = 24 hours)
-        const dailyForecasts = response.data.list
-          .filter((item, index) => index % 8 === 0)
-          .slice(0, 5);
-        setForecast(dailyForecasts);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    handleSearch("London");
   }, []);
 
+  // --- Main search function ---
   function handleSearch(newCity) {
     const apiKey = `24d6cb2a7c0d27fcc186996bccf9c722`;
     const url = `https://api.openweathermap.org/data/2.5/weather?q=${newCity}&appid=${apiKey}&units=metric`;
@@ -69,12 +57,20 @@ function App() {
     axios
       .get(url)
       .then((response) => {
-        const { name, main, weather, timezone } = response.data;
+        const {
+          name,
+          main,
+          weather: apiWeather,
+          timezone,
+          wind,
+        } = response.data;
         setWeather({
           city: name,
-          temperature: Math.round(main.temp),
-          description: weather[0].main,
-          timezone: timezone,
+          temperature: Math.round(main?.temp ?? 0),
+          description: apiWeather?.[0]?.main || "",
+          timezone: timezone ?? 0,
+          humidity: main?.humidity ?? 0,
+          wind: wind ? wind.speed : 0,
         });
       })
       .catch((error) => {
@@ -103,6 +99,8 @@ function App() {
         temperature={weather.temperature}
         description={weather.description}
         timezone={weather.timezone}
+        humidity={weather.humidity}
+        wind={weather.wind}
         theme={theme}
         forecast={forecast}
       />
